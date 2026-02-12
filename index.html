@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cardigan Dashboard</title>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%235b8af5'/><text x='16' y='21' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='14' fill='white'>CD</text></svg>">
+
+  <meta property="og:title" content="Cardigan Dashboard">
+  <meta property="og:description" content="A dark dashboard shell for GitHub Pages — zero build step, vim-style keyboard shortcuts, a11y preferences.">
+  <meta property="og:type" content="website">
+
+  <!-- Shared shell: design tokens + shell layout -->
+  <link rel="stylesheet" href="shared/shell.css">
+
+  <style>
+    /*
+     * Landing page styles
+     * Only layout-specific styles — tokens come from shell.css
+     */
+    .landing-header {
+      padding: var(--space-2xl) 0 var(--space-xl);
+      text-align: center;
+    }
+
+    .landing-header h1 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--color-text-heading);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      color: var(--color-text-muted);
+      margin-top: var(--space-sm);
+      font-size: var(--text-base);
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    .tool-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      transition: border-color var(--transition-fast), transform var(--transition-fast);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .tool-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    .tool-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .tool-name {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text-heading);
+      margin-bottom: var(--space-sm);
+    }
+
+    .tool-description {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      flex: 1;
+    }
+
+    .tool-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+
+    .tool-tag {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      background: var(--color-surface-raised);
+      border-radius: 999px;
+      color: var(--color-text-muted);
+    }
+
+    /* "Add a tool" card — dashed border */
+    .tool-card--add {
+      border-style: dashed;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 200px;
+    }
+
+    .tool-card--add:hover {
+      border-color: var(--color-border-hover);
+    }
+
+    .add-icon {
+      font-size: 2rem;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-sm);
+    }
+
+    .add-label {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .landing-logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto var(--space-lg);
+      display: block;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .tool-card {
+        animation: fadeIn 0.3s ease both;
+      }
+      .tool-card:nth-child(1) { animation-delay: 0ms; }
+      .tool-card:nth-child(2) { animation-delay: 100ms; }
+      .tool-card:nth-child(3) { animation-delay: 200ms; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <shell-header current="home"></shell-header>
+
+  <main id="main-content" class="shell-main">
+    <div class="landing-header">
+      <img src="assets/logo.svg" alt="Cardigan Dashboard logo" class="landing-logo">
+      <h1>Cardigan Dashboard</h1>
+      <p class="subtitle">
+        A dark dashboard shell for GitHub Pages — fork, customize, deploy.
+      </p>
+    </div>
+
+    <div class="tools-grid">
+
+      <a href="example-tool/" class="tool-card">
+        <span class="tool-icon" aria-hidden="true">&#9881;</span>
+        <h2 class="tool-name">Example Tool</h2>
+        <p class="tool-description">
+          A demo tool page showing how to build within the Cardigan shell — form inputs, results display, and tool-specific styles.
+        </p>
+        <div class="tool-tags">
+          <span class="tool-tag">Demo</span>
+          <span class="tool-tag">Template</span>
+        </div>
+      </a>
+
+      <div class="tool-card tool-card--add">
+        <div class="add-icon" aria-hidden="true">+</div>
+        <p class="tool-name">Add a Tool</p>
+        <p class="add-label">Create a folder, add an index.html, and update NAV_ITEMS in shell.js</p>
+      </div>
+
+    </div>
+  </main>
+
+  <shell-footer></shell-footer>
+
+  <script src="shared/shell.js" type="module"></script>
+
+</body>
+</html>

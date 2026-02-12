@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Example Tool — Cardigan Dashboard</title>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%235b8af5'/><text x='16' y='21' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='14' fill='white'>CD</text></svg>">
+
+  <!-- Shared shell first, then tool-specific styles -->
+  <link rel="stylesheet" href="../shared/shell.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <shell-header current="example-tool"></shell-header>
+
+  <main id="main-content" class="shell-main">
+    <div class="tool-header">
+      <h1>Example Tool</h1>
+      <p class="tool-subtitle">A demo page showing how to build a tool within the Cardigan shell.</p>
+    </div>
+
+    <form class="tool-form" id="demo-form">
+      <label for="demo-input" class="tool-label">Enter some text</label>
+      <div class="tool-input-row">
+        <input type="text" id="demo-input" class="tool-input" placeholder="Type something...">
+        <button type="submit" class="tool-btn">Process</button>
+      </div>
+    </form>
+
+    <div class="tool-results" id="demo-results" hidden>
+      <h2 class="tool-results-title">Results</h2>
+      <pre class="tool-results-output" id="demo-output"></pre>
+    </div>
+  </main>
+
+  <shell-footer></shell-footer>
+
+  <script src="../shared/shell.js" type="module"></script>
+  <script>
+    // Simple demo: reverse and uppercase the input
+    document.getElementById('demo-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('demo-input').value.trim();
+      if (!input) return;
+
+      const results = document.getElementById('demo-results');
+      const output = document.getElementById('demo-output');
+
+      output.textContent = [
+        `Original:  ${input}`,
+        `Reversed:  ${input.split('').reverse().join('')}`,
+        `Uppercase: ${input.toUpperCase()}`,
+        `Length:    ${input.length} characters`,
+      ].join('\n');
+
+      results.hidden = false;
+    });
+  </script>
+
+</body>
+</html>
