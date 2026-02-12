@@ -25,15 +25,15 @@ const NAV_ITEMS = [
   { id: 'example-tool', label: 'Example Tool', href: '/example-tool/' },
 ];
 
-// ── Relative path helper ───────────────────────────────────────
-// When served from subdirectories, we need relative paths.
-// Detect depth from the page's own path.
-function resolveHref(href, baseEl) {
-  const depth = (baseEl.ownerDocument.location.pathname.match(/\//g) || []).length - 1;
-  const prefix = depth > 0 ? '../'.repeat(depth) : './';
+// ── Site root derived from this script's own URL ────────────────
+// shell.js always lives at {root}/shared/shell.js, so going up one
+// directory gives the site root. Works on root domains, GitHub Pages
+// subpath deploys (/repo-name/), and file:// URLs alike.
+const SITE_ROOT = new URL('..', import.meta.url).href;
 
-  if (href === '/') return prefix;
-  return prefix + href.replace(/^\//, '');
+function resolveHref(href) {
+  if (href === '/') return SITE_ROOT;
+  return SITE_ROOT + href.replace(/^\//, '');
 }
 
 // ── Keyboard shortcuts ─────────────────────────────────────────
@@ -46,10 +46,7 @@ const SHORTCUTS = [
 function navigateTo(id) {
   const item = NAV_ITEMS.find(n => n.id === id);
   if (!item) return;
-  const depth = (window.location.pathname.match(/\//g) || []).length - 1;
-  const prefix = depth > 0 ? '../'.repeat(depth) : './';
-  const resolved = item.href === '/' ? prefix : prefix + item.href.replace(/^\//, '');
-  window.location.href = resolved;
+  window.location.href = resolveHref(item.href);
 }
 
 function toggleShortcutsModal() {
@@ -166,7 +163,7 @@ class ShellHeader extends HTMLElement {
     this.classList.add('shell-header');
     this.setAttribute('role', 'banner');
 
-    const rootHref = resolveHref('/', this);
+    const rootHref = resolveHref('/');
 
     // Skip link
     const skipLink = el('a', { href: '#main-content', className: 'shell-skip-link', textContent: 'Skip to content' });
@@ -179,7 +176,7 @@ class ShellHeader extends HTMLElement {
     // Nav
     const nav = el('nav', { className: 'shell-nav', 'aria-label': 'Main navigation' });
     for (const item of NAV_ITEMS) {
-      const href = resolveHref(item.href, this);
+      const href = resolveHref(item.href);
       const link = el('a', { href, textContent: item.label });
       if (item.id === current) link.setAttribute('aria-current', 'page');
       nav.appendChild(link);
@@ -348,9 +345,7 @@ if (document.readyState === 'loading') {
 // and app name. Silently skipped if not found.
 (async function loadBranding() {
   try {
-    const depth = (window.location.pathname.match(/\//g) || []).length - 1;
-    const prefix = depth > 0 ? '../'.repeat(depth) : './';
-    const res = await fetch(prefix + 'branding.json');
+    const res = await fetch(SITE_ROOT + 'branding.json');
     if (!res.ok) return;
     const branding = await res.json();
     const root = document.documentElement.style;
