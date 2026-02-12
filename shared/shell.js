@@ -295,7 +295,7 @@ class ShellFooter extends HTMLElement {
     const msg = document.createTextNode('Built with Cardigan Dashboard');
     const left = el('div', { className: 'shell-footer-left' }, [logo, msg]);
 
-    const ghLink = el('a', { href: 'https://github.com/YOUR_USERNAME/cardigan-dashboard-static', target: '_blank', rel: 'noopener', textContent: 'Source on GitHub' });
+    const ghLink = el('a', { href: 'https://github.com/MarkOnFire/cardigan-dashboard-static', target: '_blank', rel: 'noopener', textContent: 'Source on GitHub' });
     const right = el('div', {}, [ghLink]);
 
     const inner = el('div', { className: 'shell-footer-inner' }, [left, right]);
